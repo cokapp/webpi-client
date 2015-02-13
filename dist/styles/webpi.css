@@ -1,0 +1,72 @@
+.index{
+    margin: 0 auto;
+    width: 400px;
+}
+.index .pi-left{
+    width: 200px;
+    float: left;
+}
+.index .pi-right{
+    width: 200px;
+    float: right;
+}
+
+.index .pi-left .pin{
+    float: right;
+}
+.index .pi-left .mode{
+    float: left;
+}
+.index .pi-left .name{
+    float: right;
+    margin-right: 50px;
+}
+.index .pi-right .pin{
+    float: left;
+}
+.index .pi-right .mode{
+    float: right;
+}
+.index .pi-right .name{
+    float: left;
+    margin-left: 50px;
+}
+
+.switcher{
+    position: relative;
+    margin: 2px;
+}
+
+.small .pin{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid #000;
+}
+.small .pin.value0{
+    background: gray; 
+}
+.small .pin.value1{
+    background: green;
+}
+
+.small .mode{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid #000;
+}
+.small .mode.INPUT{
+    background: #000; 
+    color: #fff;
+}
+.small .mode.OUTPUT{
+    background: #fff; 
+    color: #000;
+}
+
+

@@ -1,0 +1,15 @@
+<div class="index clearfix">
+    <div class="pi-left">
+        <div ng-repeat="pinData in _pinDatas | filter: pinOdd">
+            <div pi-switcher="{{pinData.pin}}">
+            </div>
+        </div>
+    </div>
+
+    <div class="pi-right">
+        <div ng-repeat="pinData in _pinDatas | filter: pinEven">
+            <div pi-switcher="{{pinData.pin}}">
+            </div>
+        </div>
+    </div>
+</div>

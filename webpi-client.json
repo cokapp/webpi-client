@@ -1,0 +1,25 @@
+{
+  "name": "webpi-client",
+  "title": "在线树莓派",
+  "description": "the client of webpi",
+  "version": "0.0.1",
+  "homepage": "http://webpi.cokapp.com",
+  "author": {
+    "name": "cokapp",
+    "email": "dev@cokapp.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.oschina.net/cokapp/webpi.git"
+  },
+  "bugs": "",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+  },
+  "keywords": []
+}

@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="chat-roomlist-wrapper" ng-controller="userlistCtrl">
+                <div class="list-group">
+                    <a href="#" class="list-group-item" ng-repeat="user in _ul.onlineAreaSupporter">
+                        {{user.user.displayname}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
