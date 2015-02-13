@@ -38,8 +38,9 @@ piApp.config(['$provide', '$urlRouterProvider', '$stateProvider', '$locationProv
         $urlRouterProvider.when('', '/');
 
         $locationProvider.html5Mode({
-          enabled: false
-        }).hashPrefix('');
+          enabled: true
+        }).hashPrefix('#');
+
         $stateProvider
             .state('/', {
                 url: '/',
@@ -50,6 +51,11 @@ piApp.config(['$provide', '$urlRouterProvider', '$stateProvider', '$locationProv
                 url: '/app',
                 templateUrl: 'tpls/pages/app.tpl.html',
                 controller: 'appCtrl'
+            })
+            .state('switcher', {
+                url: '/switcher',
+                templateUrl: 'tpls/pages/switcher.tpl.html',
+                controller: 'switcherCtrl'
             })
             .state('otherwise', {
                 url: '*path',
@@ -173,14 +179,83 @@ piApp.config(['$provide', '$urlRouterProvider', '$stateProvider', '$locationProv
 }(angular));
 
 angular.module('piApp')
-    .directive('piSwitcher', ['$rootScope', 'rootSvr', 'socketSvr',
+    .directive('piPin', ['$rootScope', 'rootSvr', 'socketSvr',
         function($rootScope, rootSvr, socketSvr) {
+            var gpioClone = function(gpio){
+                var cloned = {};
+                for(var i in gpio){
+                    cloned[i] = gpio[i];
+                }
+                return cloned;
+            }
+
             return {
                 scope: {
                 },
                 restrict: 'AE',
                 replace: true,
-                templateUrl: 'tpls/switcher/small.tpl.html',
+                templateUrl: 'tpls/widgets/pin.tpl.html',
+                link: function(scope, elem, attr) {
+                    var pin = parseInt(attr.piPin);
+
+	                $rootScope.$on('pinchanged', function(e, gpio) {
+
+	                    if(gpio.pin === pin){
+							scope.$apply(function(){
+								scope.gpio = gpio;
+                                if(scope.gpio.mode === 'INPUT'){
+                                    scope.gpio.modeName = 'IN';
+                                }else{
+                                    scope.gpio.modeName = 'OUT';
+                                }
+							});
+	                    }
+	                });
+
+                    elem.find('.pin').on('click', function() {
+                        var gpio = gpioClone(scope.gpio);
+
+                        if (gpio.value == 1) {
+                            gpio.value = 0;
+                        } else {
+                            gpio.value = 1;
+                        }
+
+                        socketSvr.writePin(pin, gpio);
+                    });
+                    elem.find('.mode').on('click', function() {
+                        var gpio = gpioClone(scope.gpio);
+
+                        if (gpio.mode == 'INPUT') {
+                            gpio.mode = 'out';
+                        } else {
+                            gpio.mode = 'in';
+                        }
+
+                        socketSvr.writePin(pin, gpio);
+                    });
+                }
+            }
+        }
+    ]);
+
+angular.module('piApp')
+    .directive('piSwitcher', ['$rootScope', 'rootSvr', 'socketSvr',
+        function($rootScope, rootSvr, socketSvr) {
+            var gpioClone = function(gpio){
+                var cloned = {};
+                for(var i in gpio){
+                    cloned[i] = gpio[i];
+                }
+                return cloned;
+            }
+
+            return {
+                scope: {
+                },
+                restrict: 'AE',
+                replace: true,
+                templateUrl: 'tpls/switcher/default.tpl.html',
                 link: function(scope, elem, attr) {
                     var pin = parseInt(attr.piSwitcher);
 
@@ -199,22 +274,26 @@ angular.module('piApp')
 	                });
 
                     elem.find('.pin').on('click', function() {
-                        if (scope.gpio.value == 1) {
-                            scope.gpio.value = 0;
+                        var gpio = gpioClone(scope.gpio);
+
+                        if (gpio.value == 1) {
+                            gpio.value = 0;
                         } else {
-                            scope.gpio.value = 1;
+                            gpio.value = 1;
                         }
 
-                        socketSvr.writePin(pin, scope.gpio);
+                        socketSvr.writePin(pin, gpio);
                     });
                     elem.find('.mode').on('click', function() {
-                        if (scope.gpio.mode == 'INPUT') {
-                            scope.gpio.mode = 'out';
+                        var gpio = gpioClone(scope.gpio);
+
+                        if (gpio.mode == 'INPUT') {
+                            gpio.mode = 'out';
                         } else {
-                            scope.gpio.mode = 'in';
+                            gpio.mode = 'in';
                         }
 
-                        socketSvr.writePin(pin, scope.gpio);
+                        socketSvr.writePin(pin, gpio);
                     });
                 }
             }
@@ -242,6 +321,20 @@ angular.module('piApp')
 
 
 
+        ]);
+
+
+}(angular));
+
+(function(angular, undefined) {
+    'use strict';
+
+
+    angular.module('piApp')
+        .controller('switcherCtrl', ['$scope', 'rootSvr',
+            function($scope, rootSvr) {
+
+            }
         ]);
 
 

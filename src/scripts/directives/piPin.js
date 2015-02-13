@@ -1,8 +1,5 @@
-/*
-开关指令
-*/
 angular.module('piApp')
-    .directive('piSwitcher', ['$rootScope', 'rootSvr', 'socketSvr',
+    .directive('piPin', ['$rootScope', 'rootSvr', 'socketSvr',
         function($rootScope, rootSvr, socketSvr) {
             var gpioClone = function(gpio){
                 var cloned = {};
@@ -17,9 +14,9 @@ angular.module('piApp')
                 },
                 restrict: 'AE',
                 replace: true,
-                templateUrl: 'tpls/switcher/default.tpl.html',
+                templateUrl: 'tpls/widgets/pin.tpl.html',
                 link: function(scope, elem, attr) {
-                    var pin = parseInt(attr.piSwitcher);
+                    var pin = parseInt(attr.piPin);
 
 	                $rootScope.$on('pinchanged', function(e, gpio) {
 

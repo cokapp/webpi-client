@@ -35,8 +35,9 @@ piApp.config(['$provide', '$urlRouterProvider', '$stateProvider', '$locationProv
         $urlRouterProvider.when('', '/');
 
         $locationProvider.html5Mode({
-          enabled: false
-        }).hashPrefix('');
+          enabled: true
+        }).hashPrefix('#');
+
         $stateProvider
             .state('/', {
                 url: '/',
@@ -47,6 +48,11 @@ piApp.config(['$provide', '$urlRouterProvider', '$stateProvider', '$locationProv
                 url: '/app',
                 templateUrl: 'tpls/pages/app.tpl.html',
                 controller: 'appCtrl'
+            })
+            .state('switcher', {
+                url: '/switcher',
+                templateUrl: 'tpls/pages/switcher.tpl.html',
+                controller: 'switcherCtrl'
             })
             .state('otherwise', {
                 url: '*path',
